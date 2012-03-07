@@ -1,0 +1,9 @@
+{% extends "objects.html" %}
+
+{% block objects %}
+<ol>
+{% for obj in objs %}
+    <li><a = href="{{ forloop.counter0 }}/*list">{{ obj }}</a></li>
+{% endfor %}
+</ol>
+{% endblock %}

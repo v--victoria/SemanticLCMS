@@ -1,0 +1,16 @@
+{% extends "objects.html" %}
+
+{% block objects %}
+<table border="1px">
+    <tr>
+        <td>#</td>
+        <td>Object</td>
+    </tr>
+{% for obj in objs %}
+    <tr>
+	<td>{{ forloop.counter }}</td>
+	<td><a = href="{{ forloop.counter0 }}/*table">{{ obj }}</a></td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
