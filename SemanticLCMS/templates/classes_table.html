@@ -1,0 +1,20 @@
+{% extends "classes.html" %}
+
+{% block classes %}
+<table border="1px">
+    <tr>
+        <td>#</td>
+        <td>Full class name</td>
+        <td>Short class name</td>
+    </tr>
+{% for fullname, shortname in classes %}
+    <tr>
+	<td>{{ forloop.counter }}</td>
+	<td>
+            <a = href="{{ shortname }}/*table">{{ fullname }}</a>
+        </td>
+	<td>{{ shortname }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

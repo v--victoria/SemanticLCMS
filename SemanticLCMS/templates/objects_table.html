@@ -1,0 +1,20 @@
+{% extends "objects.html" %}
+
+{% block objects %}
+<table border="1px">
+    <tr>
+        <td>#</td>
+        <td>Full object name</td>
+        <td>Short object name</td>
+    </tr>
+{% for fullname, shortname in objs %}
+    <tr>
+	<td>{{ forloop.counter }}</td>
+	<td>
+            <a = href="{{ shortname }}/*table">{{ fullname }}</a>
+        </td>
+	<td>{{ shortname }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

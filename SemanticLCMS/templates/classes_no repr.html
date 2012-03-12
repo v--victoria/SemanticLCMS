@@ -1,0 +1,9 @@
+{% extends "classes.html" %}
+
+{% block classes %}
+{% if reprmode != '' %} No <b>{{ reprmode }}</b> representation of classes.
+<br/><br/>
+{% endif %}
+<b>Simple representation:</b><br/>
+{{ classes }}
+{% endblock %}
