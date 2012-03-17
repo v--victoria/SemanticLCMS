@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">]>
+<rdf:RDF   
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"  
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://example.org/schemas/lcms">
+
+<rdfs:Class rdf:ID="Course">
+</rdfs:Class>
+<rdfs:Class rdf:ID="CourseStructure">
+	<rdfs:subClassOf rdf:resource="#Course" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="CourseCalendar">
+	<rdfs:subClassOf rdf:resource="#Course" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="CourseCommunity">
+	<rdfs:subClassOf rdf:resource="#Course" />
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="CourseTheme">
+</rdfs:Class>
+<rdfs:Class rdf:ID="CourseResource">
+</rdfs:Class>
+<rdfs:Class rdf:ID="CourseElement">
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="TextPage">
+	<rdfs:subClassOf rdf:resource="#CourseResource" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="LinkToFileOrWebPage">
+	<rdfs:subClassOf rdf:resource="#CourseResource" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="Remark">
+	<rdfs:subClassOf rdf:resource="#CourseResource" />
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Forum">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="WorkBook">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="Test">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="Glossary">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="VideoLecture">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="Lecture">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="Task">
+	<rdfs:subClassOf rdf:resource="#CourseElement" />
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="ForumTheme">
+</rdfs:Class>
+<rdfs:Class rdf:ID="ForumMessage">
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Question">
+</rdfs:Class>
+<rdfs:Class rdf:ID="QuestionForComliance">
+	<rdfs:subClassOf rdf:resource="#Question" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="ClosedQuestion">
+	<rdfs:subClassOf rdf:resource="#Question" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="QuestionWithShortAnswer">
+	<rdfs:subClassOf rdf:resource="#Question" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="RightWrongQuestion">
+	<rdfs:subClassOf rdf:resource="#Question" />
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="TaskWithTextAsAnswer">
+	<rdfs:subClassOf rdf:resource="#Task" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="TaskWithFileAsAnswer">
+	<rdfs:subClassOf rdf:resource="#Task" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="TaskWithAnswerOutOfSite">
+	<rdfs:subClassOf rdf:resource="#Task" />
+</rdfs:Class>
+<rdfs:Class rdf:ID="GlossaryRecord">
+</rdfs:Class>
+<rdfs:Class rdf:ID="Term">
+</rdfs:Class>
+<rdfs:Class rdf:ID="TermDefinition">
+</rdfs:Class>
+<rdfs:Class rdf:ID="LecturePage">
+</rdfs:Class>
+<rdfs:Class rdf:ID="Grade">
+</rdfs:Class>
+<rdfs:Class rdf:ID="Author">
+</rdfs:Class>
+<rdfs:Class rdf:ID="File">
+</rdfs:Class>
+<rdfs:Class rdf:ID="ClosedQuestionOption">
+</rdfs:Class>
+<rdfs:Class rdf:ID="QuestionForComliancePair">
+</rdfs:Class>
+<rdfs:Class rdf:ID="Content">
+</rdfs:Class>
+
+<rdfs:Datatype rdf:about="&xsd;string"/>
+<rdfs:Datatype rdf:about="&xsd;integer"/>
+<rdfs:Datatype rdf:about="&xsd;date"/>
+<rdfs:Datatype rdf:about="&xsd;time"/>
+<rdfs:Datatype rdf:about="&xsd;boolean"/>
+
+<rdf:Property rdf:ID="hasID">
+	<rdfs:subPropertyOf rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#ID"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasLabel">
+	<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasComment">
+	<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasAuthor">
+	<rdfs:range rdf:resource="#Author" />	
+</rdf:Property>
+<rdf:Property rdf:ID="hasPublicationDate">
+	<rdfs:range rdf:resource="&xsd;date" />	
+</rdf:Property>
+<rdf:Property rdf:ID="hasPublicationTime">
+	<rdfs:range rdf:resource="&xsd;time" />	
+</rdf:Property>
+<rdf:Property rdf:ID="hasModificationDate">
+	<rdfs:range rdf:resource="&xsd;date" />	
+</rdf:Property>
+<rdf:Property rdf:ID="hasModificationTime">
+	<rdfs:range rdf:resource="&xsd;time" />	
+</rdf:Property>
+
+
+<rdf:Property rdf:ID="hasStartDate">
+	<rdfs:domain rdf:resource="#Course" />
+	<rdfs:range rdf:resource="&xsd;date" />	
+</rdf:Property>
+<rdf:Property rdf:ID="hasMaxFileSize">
+	<rdfs:domain rdf:resource="#Course" />
+	<rdfs:domain rdf:resource="#TaskWithFileAsAnswer" />
+	<rdfs:range rdf:resource="&xsd;integer" />	
+</rdf:Property>
+<rdf:Property rdf:ID="hasThemesCount">
+	<rdfs:domain rdf:resource="#CourseStructure" />
+	<rdfs:domain rdf:resource="#CourseCalendar" />
+	<rdfs:range rdf:resource="&xsd;integer" />	
+</rdf:Property>
+
+<rdf:Property rdf:ID="hasMessagesCountToBlock">
+	<rdfs:domain rdf:resource="#Forum" />
+	<rdfs:range rdf:resource="&xsd;integer" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasMessagesCountToWarn">
+	<rdfs:domain rdf:resource="#Forum" />
+	<rdfs:range rdf:resource="&xsd;integer" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasBlockPeriod">
+	<rdfs:domain rdf:resource="#Forum" />
+	<rdfs:range rdf:resource="&xsd;integer" />
+</rdf:Property>
+
+<rdf:Property rdf:ID="hasTaskDefinition">
+	<rdfs:domain rdf:resource="#Task" />
+	<rdfs:range rdf:resource="#Content" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasMaxFilesCount">
+	<rdfs:domain rdf:resource="#TaskWithFileAsAnswer" />
+	<rdfs:range rdf:resource="&xsd;integer" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasFile">
+	<rdfs:domain rdf:resource="#LinkToFileOrWebPage" />
+	<rdfs:domain rdf:resource="#VideoLecture" />
+	<rdfs:range rdf:resource="#File" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasTermDefinition">
+	<rdfs:domain rdf:resource="#Term" />
+	<rdfs:range rdf:resource="#TermDefinition" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasLecturePage">
+	<rdfs:domain rdf:resource="#Lecture" />
+	<rdfs:range rdf:resource="#LecturePage" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasQuestionDefinition"> 
+	<rdfs:domain rdf:resource="#Question" />
+	<rdfs:range rdf:resource="#Content" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasGrade">
+	<rdfs:domain rdf:resource="#Question" />
+	<rdfs:domain rdf:resource="#WorkBook" />
+	<rdfs:domain rdf:resource="#Test" />
+	<rdfs:domain rdf:resource="#Task" />
+	<rdfs:range rdf:resource="#Grade" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasRightWrongQuestionStatement"> 
+	<rdfs:domain rdf:resource="#RightWrongQuestion" />
+	<rdfs:range rdf:resource="&xsd;string" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasRightWrongQuestionAnswer"> 
+	<rdfs:domain rdf:resource="#RightWrongQuestion" />
+	<rdfs:range rdf:resource="&xsd;boolean" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasShortAnswer"> 
+	<rdfs:domain rdf:resource="#QuestionWithShortAnswer" />
+	<rdfs:range rdf:resource="&xsd;string" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasClosedQuestionStatement"> 
+	<rdfs:domain rdf:resource="#ClosedQuestionOption" />
+	<rdfs:range rdf:resource="&xsd;string" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasRate"> 
+	<rdfs:domain rdf:resource="#ClosedQuestionOption" />
+	<rdfs:domain rdf:resource="#QuestionForCompliancePair" />
+	<rdfs:range rdf:resource="&xsd;integer" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasTerm"> 
+	<rdfs:domain rdf:resource="#GlossaryRecord" />
+	<rdfs:range rdf:resource="#Term" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasValue1"> 
+	<rdfs:domain rdf:resource="#QuestionForCompliancePair" />
+	<rdfs:range rdf:resource="&xsd;string" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasValue2"> 
+	<rdfs:domain rdf:resource="#QuestionForCompliancePair" />
+	<rdfs:range rdf:resource="&xsd;string" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasContent"> 
+	<rdfs:domain rdf:resource="#TextPage" />
+	<rdfs:domain rdf:resource="#ForumMessage" />
+	<rdfs:domain rdf:resource="#LecturePage" />
+	<rdfs:domain rdf:resource="#Remark" />
+	<rdfs:range rdf:resource="#Content" />
+</rdf:Property>
+
+<rdf:Property rdf:ID="contains">
+</rdf:Property>
+<rdf:Property rdf:ID="hasCourseTheme">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#CourseStructure" />
+	<rdfs:domain rdf:resource="#CourseCalendar" />
+	<rdfs:range rdf:resource="#CourseTheme" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasCourseResource">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#CourseTheme" />
+	<rdfs:range rdf:resource="#CourseResource" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasCourseElement">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#CourseTheme" />
+	<rdfs:range rdf:resource="#CourseElement" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasForum">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#CourseCommunity" />
+	<rdfs:range rdf:resource="#Forum" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasForumTheme">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#Forum" />
+	<rdfs:range rdf:resource="#ForumTheme" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasForumMessage">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#ForumTheme" />
+	<rdfs:range rdf:resource="#ForumMessage" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasQuestion">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#Test" />
+	<rdfs:range rdf:resource="#Question" />
+</rdf:Property>
+<rdf:Property rdf:ID="hasQuestionForComliancePair">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#QuestionForComliance" />
+	<rdfs:range rdf:resource="#QuestionForComliancePair" />
+</rdf:Property>
+
+<rdf:Property rdf:ID="hasClosedQuestionOption">
+	<rdfs:subPropertyOf rdf:resource="#contains"/>
+	<rdfs:domain rdf:resource="#ClosedQuestion" />
+	<rdfs:range rdf:resource="#ClosedQuestionOption" />
+</rdf:Property>
+
+
+</rdf:RDF>
