@@ -1,0 +1,67 @@
+Протокол на основе архитуктуры REST для взаимодействия с веб-сервисом.
+
+Введение.
+
+Возможные URL и соответствующие им ресурсы:
+/ - список всех классов,
+/class_name/ - класс class_name в виде списка всех своих экземпляров,
+/class_name/object_name/ - экземпляр object_name класса class_name в виде списка всех своих свойств со значениями.
+
+Действия CRUD и соответсвующие им методы http:
+C = create 	-> PUT
+R = read 	-> GET
+U = update 	-> POST
+D = delete 	-> DELETE
+
+Протокол.
+
+1.
+1.1. При запросе http типа GET
+по каждому из URL можно получить соответсвующий ресурс в 2ух видах:
+<text/http> - при запросе http со значением <text/http> в поле Accept,
+<text/json> - при запросе http со значением <text/json> в поле Accept.
+Тело запроса пусто.
+
+1.2. При запросе http со значением <text/json> в поле Accept 
+при обращении к URL 
+1.2.1.
+/ возвращается список всех классов в виде списка json: [fullclassname1, fullclassname2, ...].
+Например,
+["http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Chianti", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Pauillac", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineColor", ...];
+1.2.2.
+/class_name/ возвращается класс class_name в виде объекта json: {fullclassname: [fullobjectname1, fullobjectname2, ...]}
+Например,
+{"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Region": ["http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#BeaujolaisRegion", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchRegion", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#MendocinoRegion", ...]};
+1.2.3.
+/class_name/object_name/ возвращается экземпляр object_name класса class_name в виде объекта json (описание свойств объекта с заданной степенью вложенности):
+{fullclassname: object_description}
+Описание объекта object_description имеет вид:
+{fullobjectname: [[fullpropname1, propvalue1], ...]}
+Значение свойства propvalue1 может иметь 2 вида
+строка - в случае data property (свойства, связывающего объект с литералом),
+object_description - в случае object property (свойства, связывающего 2 объекта).
+
+2.
+При запросе http типа DELETE
+по URL
+/ происходит удаление всех классов и их экземпляров,
+/class_name/ происходит удаление класса class_name и его экземпляров,
+/class_name/object_name/ происходит удаление экземпляра object_name класса class_name.
+Тело запроса пусто.
+
+3.
+При запросе http типа PUT
+по URL
+/ происходит добавление класса,
+/class_name/ происходит добавление экземпляра класса class_name,
+/class_name/object_name/ происходит добавление свойств и их значений к экземпляру object_name класса class_name.
+Данные о добавляемом ресурсе в теле запроса.(???)
+
+4.
+При запросе http типа POST
+по URL
+/class_name/ происходит изменение класса:
+(???изменение имени класса, изменение его свойств) 
+/class_name/object_name/ происходит изменение экземпляра object_name класса class_name
+(???изменение имени экземпляра, изменение его свойств: изменение значений свойств/удаление свойств)
+Данные об изменяемом ресурсе в теле запроса.(???)
