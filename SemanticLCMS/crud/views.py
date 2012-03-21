@@ -1,73 +1,67 @@
-from crud.models import *
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.utils.html import escape
+from SemanticLCMS.crud.models import *
 import json
 import re
 
-class HttpJsonResponse(HttpResponse):
-    def __init__(self, data):
-        super(HttpJsonResponse, self).__init__(data)
-        self['Content-Type'] = 'text/json'
+def get_acc_types(request):
+    return [a.split(';')[0] for a in request.META['HTTP_ACCEPT'].split(',')]
 
-
-
-def get_short_name(full_name):
+def get_short(full_name):
     patt = re.compile('[#:]\w+')
     return patt.search(full_name).group(0)[1:]
 
-
-
-def show_classes(request, reprmode): #TODO get reprmode from request
+#show all classes
+def show_classes(request): #TODO it is only for get method
     t = Factory('http://www.w3.org/2002/07/owl#Class')
     fullnames = map(str, t.objects.all())
-    shortnames = map(get_short_name, fullnames)
+    shortnames = map(get_short, fullnames)
     classes = map(lambda a, b: (a, b), fullnames, shortnames)
-
     n = len(classes)
+    
+    accepts = get_acc_types(request)
+#   accepts.append('text/json')
+#   accepts = []
 
-    if reprmode == None: reprmode = ''
-    reprmode = reprmode[1:]
-
-    if reprmode == 'table':
+    if 'text/json' in accepts:
+        return HttpResponse(json.dumps(fullnames), content_type = 'text/json')
+    elif 'text/html' in accepts:
         return render_to_response('classes_table.html',  {'classes': classes, 'count': n})
-    elif reprmode == 'json':
-        return HttpJsonResponse(json.dumps(fullnames))
     else:
-        return render_to_response('classes_no repr.html', {'classes': classes, 'count': n, 'reprmode': reprmode})
+        return render_to_response('classes_no repr.html', {'classes': classes, 'count': n})
 
 
 
 #show all objects of class
-#reprmode - representation mode (i.e table, list, json)
-def show_objects(request, classname, reprmode): #TODO get reprmode from request
+def show_objects(request, classname):
     ns = 'http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#'
     t = Factory(ns + str(classname))
     fullnames = map(str, t.objects.all())
-    shortnames = map(get_short_name, fullnames)
+    shortnames = map(get_short, fullnames)
     objs = map(lambda a, b: (a, b), fullnames, shortnames)
-
     n = len(objs)
 
-    if reprmode == None: reprmode = ''
-    reprmode = reprmode[1:]
-    
-    if reprmode == 'table': 
+
+    accepts = get_acc_types(request)
+#   accepts.append('text/json')
+#   accepts = []
+    if 'text/json' in accepts:	
+        return HttpResponse(json.dumps({ns + classname: fullnames}), content_type = 'text/json')
+    elif 'text/html' in accepts:
         return render_to_response('objects_table.html', {'classname': classname, 'objs': objs, 'count': n})
-    elif reprmode == 'json':	
-        return HttpJsonResponse(json.dumps({classname: fullnames}))
-    else: 
-        return render_to_response('objects_no_repr.html', {'classname': classname, 'objs': objs, 'count': n, 'reprmode': reprmode})
+    else:
+        return render_to_response('objects_no_repr.html', {'classname': classname, 'objs': objs, 'count': n})
 
 
-
-def show_object(request, classname, objectname, reprmode):
+def show_object(request, classname, objectname):
     ns = 'http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#'
     t = Factory(ns + str(classname))
-    obj = t.objects.all().get(uri = ns + objectname)[0]
-    
-    if reprmode == None: reprmode = ''
-    reprmode = reprmode[1:]
+    obj = t.objects.all().get(uri = ns + objectname)
+    obj = obj[0]
+    accepts = get_acc_types(request)
+#   accepts.append('text/json')
+#   accepts = []
 
     #TODO props
     props = []
@@ -76,22 +70,22 @@ def show_object(request, classname, objectname, reprmode):
     fullprop = ns + shortprop
     try:
         fullvalue = obj[fullprop]
-        props.append((shortprop, fullvalue, get_short_name(fullvalue)))
+        props.append((fullprop, shortprop, fullvalue, get_short(fullvalue)))
     except AttributeError:
-        props.append((shortprop, None, None))
+        props.append((fullprop, shortprop, None, None))
 
     shortprop = 'adjacentRegion'
     fullprop = ns + shortprop
     try:
         fullvalue = obj[fullprop]
-        props.append((shortprop, fullvalue, get_short_name(fullvalue)))
+        props.append((fullprop, shortprop, fullvalue, get_short(fullvalue)))
     except AttributeError:
-        props.append((shortprop, None, None))
+        props.append((fullprop, shortprop, None, None))
     
-
-    if reprmode == 'table':
-        return render_to_response('object_table.html', {'classname': classname, 'obj': get_short_name(str(obj)), 'props': props})
-    elif reprmode == 'json':
-        return HttpJsonResponse(json.dumps({ns + classname: {str(obj): props}}))
+    if 'text/json' in accepts:	
+        return HttpResponse(json.dumps({ns + classname: {str(obj): [[p[0], p[2]] for p in props]}}), content_type = 'text/json')
+    elif 'text/html' in accepts:
+        return render_to_response('object_table.html', {'classname': classname, 'obj': get_short(str(obj)), 'props': props})
     else:
-	return render_to_response('object_no_repr.html', {'classname': classname, 'obj': get_short_name(str(obj)), 'props': props, 'reprmode': reprmode})
+	return render_to_response('object_no_repr.html', {'classname': classname, 'obj': get_short(str(obj)), 'props': props})
+

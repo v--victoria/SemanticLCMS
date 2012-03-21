@@ -5,14 +5,18 @@ from django.db.models import *
 from django.db.models.query import QuerySet
 from SemanticObjects import *
 
+# Create your models here.
+
 class SemanticQuerySet (QuerySet):
 
 	def __init__(self, model, uri):
+
 		super(SemanticQuerySet, self).__init__(model)
 
 		self.s = SemanticObjects ("http://fourstore.avalon.ru:80")
 		#self.s.add_namespace ("wines", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#")
 		self.uri = uri
+
 		# получаем все экземпляры класса
 		self.resources = self.s.get_resources (self.uri)
 
@@ -27,7 +31,7 @@ class SemanticQuerySet (QuerySet):
 	def __getitem__ (self, k):
 
 		if -1 < k < len (self.resources): return self.resources[k]
-		else: return None
+		else: raise Exception ("Object doesn't have item with key '" + str(key)+"'")
 
 	def __len__ (self):
 
@@ -56,6 +60,9 @@ class SemanticQuerySet (QuerySet):
 		#if type(t) == list: raise Exception ("Too many records retrieved for ", kwargs)
 
 		return t
+
+#	def get_properties (self):
+
 #		
 #	def exclude (self, **kwargs):
 #	
@@ -79,11 +86,14 @@ class SemanticQuerySet (QuerySet):
 
 # менеджер семантического репозитария
 class SemanticManager (Manager):
+
 	def __init__(self, uri):
+
 		super(SemanticManager, self).__init__()
 		self.uri = uri	
 
 	def get_query_set (self):
+
 		return SemanticQuerySet (self.model, self.uri)
 
 # описываем модель, по которой будем получать данные из онтологии
@@ -95,10 +105,13 @@ class Factory (object):
 #	ns = "wines"
 
 	def __new__ (cls, uri):
+
 		t = uri.rsplit ("#")
 		name = t[1] if len (t) > 1 else uri.rsplit (":")[1]
-		return type (name, (object,), {"uri": uri, "objects": SemanticManager(uri)})
+
+		return type (name, (object,), {"uri": uri, "objects": SemanticManager (uri)})
 
 	def __init__ (self, uri):
+
 		pass
 #		self.objects = SemanticManager (uri)

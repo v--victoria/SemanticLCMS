@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    (r'^(\*[a-zA-Z]*)?$', show_classes),
-    (r'^(\w+)/(\*[a-zA-Z]*)?$', show_objects), # i.e Region, Region/?, Region/?list, Region/?json
-    (r'^(\w+)/(\w+)/(\*[a-zA-Z]*)?$', show_object),
+    (r'^$', show_classes),
+    (r'^(\w+)/$', show_objects),
+    (r'^(\w+)/(\w+)/$', show_object),
 )
