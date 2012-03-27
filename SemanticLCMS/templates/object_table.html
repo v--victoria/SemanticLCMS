@@ -4,17 +4,22 @@
 <table border="1px">
     <tr>
         <td>#</td>
-        <td>Property</td>
-        <td>Full value</td>
-        <td>Short value</td>
+        <td>Property uri</td>
+        <td>Property id</td>
+        <td>Property value uri or Literal</td>
+        <td>Property value id or Literal</td>
+        <td>Value type</td>
     </tr>
-{% for prop in props %}
+{% for puri, pid, pvuri, pvid, vt in props %}
     <tr>
 	<td>{{ forloop.counter }}</td>
-	<td>{{ prop.0 }}</td>
-	<td>{{ prop.1 }}</td>
-	<td>{{ prop.2 }}</td>
+	<td>{{ puri }}</td>
+	<td>{{ pid }}</td>
+	<td>{{ pvuri }}</td>
+	<td>{{ pvid }}</td>
+	<td>{{ vt }}</td>
     </tr>
 {% endfor %}
 </table>
+{{ pl }}
 {% endblock %}

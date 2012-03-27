@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Objects of {{ classname|lower }}</title>
+    <title>{{ classid }}</title>
 </head>
 <body>
-    <h1>Objects of {{ classname }} class</h1>
-    {{ classname }} class has {{ count }} objects.
+    <h1>Objects of {{ classid }} class</h1>
+    {{ classid }} class has {{ count }} objects.
     <hr />
     {% block objects %}{% endblock %}
 </body>

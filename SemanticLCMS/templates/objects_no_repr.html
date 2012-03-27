@@ -1,9 +1,7 @@
 {% extends "objects.html" %}
 
 {% block objects %}
-{% if reprmode != '' %} No <b>{{ reprmode }}</b> representation of objects.
-<br/><br/>
-{% endif %}
+{% include pr.html %}
 <b>Simple representation:</b><br/>
 {{ objs }}
 {% endblock %}

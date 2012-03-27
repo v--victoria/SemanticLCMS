@@ -4,16 +4,16 @@
 <table border="1px">
     <tr>
         <td>#</td>
-        <td>Full object name</td>
-        <td>Short object name</td>
+        <td>Object uri</td>
+        <td>Object id</td>
     </tr>
-{% for fullname, shortname in objs %}
+{% for uri, id in objs %}
     <tr>
 	<td>{{ forloop.counter }}</td>
 	<td>
-            <a = href="{{ shortname }}/*table">{{ fullname }}</a>
+            <a = href="{{ id }}">{{ uri }}</a>
         </td>
-	<td>{{ shortname }}</td>
+	<td>{{ id }}</td>
     </tr>
 {% endfor %}
 </table>

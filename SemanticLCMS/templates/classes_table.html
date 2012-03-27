@@ -4,16 +4,16 @@
 <table border="1px">
     <tr>
         <td>#</td>
-        <td>Full class name</td>
-        <td>Short class name</td>
+        <td>Class uri</td>
+        <td>Class id</td>
     </tr>
-{% for fullname, shortname in classes %}
+{% for uri, id in classes %}
     <tr>
 	<td>{{ forloop.counter }}</td>
 	<td>
-            <a = href="{{ shortname }}/*table">{{ fullname }}</a>
+            <a = href="{{ id }}">{{ uri }}</a>
         </td>
-	<td>{{ shortname }}</td>
+	<td>{{ id }}</td>
     </tr>
 {% endfor %}
 </table>

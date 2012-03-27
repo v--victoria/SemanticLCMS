@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>{{ obj }} - object of {{ classname|lower }}</title>
+    <title>{{ objectid }}</title>
 </head>
 <body>
-    <h1>{{ obj }} - object of {{ classname }}</h1>
-    Object: {{ obj }}
+    <h1>{{ objectid }} - object of {{ classid }}</h1>
+    Object: {{ objectid }}
     <br/><br/>
     Object properties. 
     {% block props %}{% endblock %}
