@@ -2,10 +2,18 @@
 
 Введение.
 
-Возможные URL и соответствующие им ресурсы:
+Используемые обозначения:
+uri - полный uri ресурса (например, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Winery"),
+id -  id ресурса, являющийся частью полного uri после знака # или : (например, Winery).
+
+Возможные URI и соответствующие им ресурсы:
 / - список всех классов,
-/class_name/ - класс class_name в виде списка всех своих экземпляров,
-/class_name/object_name/ - экземпляр object_name класса class_name в виде списка всех своих свойств со значениями.
+/classid/ - класс classid в виде списка всех своих экземпляров,
+/classid/objectid/ - экземпляр objectid класса classid в виде списка всех своих возможных свойств со значениями (неинициализированные свойства равны None (Python), null(Json, Html)).
+
+Возможные виды ресурсов:
+<text/html> (по умолчанию),
+<text/json>.
 
 Действия CRUD и соответсвующие им методы http:
 C = create 	-> PUT
@@ -13,55 +21,102 @@ R = read 	-> GET
 U = update 	-> POST
 D = delete 	-> DELETE
 
+Дополнительные условия:
+Нельзя удалять/добавлять классы, 
+       удалять/добавлять свойства.
+
+
 Протокол.
 
-1.
+1. Метод GET -> действие read
+
 1.1. При запросе http типа GET
-по каждому из URL можно получить соответсвующий ресурс в 2ух видах:
-<text/http> - при запросе http со значением <text/http> в поле Accept,
+по каждому из URI можно получить соответсвующий ресурс в 2ух видах:
+<text/html> - при запросе http со значением <text/html> в поле Accept,
 <text/json> - при запросе http со значением <text/json> в поле Accept.
 Тело запроса пусто.
 
-1.2. При запросе http со значением <text/json> в поле Accept 
-при обращении к URL 
-1.2.1.
-/ возвращается список всех классов в виде списка json: [fullclassname1, fullclassname2, ...].
-Например,
-["http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Chianti", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Pauillac", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineColor", ...];
-1.2.2.
-/class_name/ возвращается класс class_name в виде объекта json: {fullclassname: [fullobjectname1, fullobjectname2, ...]}
-Например,
-{"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Region": ["http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#BeaujolaisRegion", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchRegion", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#MendocinoRegion", ...]};
-1.2.3.
-/class_name/object_name/ возвращается экземпляр object_name класса class_name в виде объекта json (описание свойств объекта с заданной степенью вложенности):
-{fullclassname: object_description}
-Описание объекта object_description имеет вид:
-{fullobjectname: [[fullpropname1, propvalue1], ...]}
-Значение свойства propvalue1 может иметь 2 вида
-строка - в случае data property (свойства, связывающего объект с литералом),
-object_description - в случае object property (свойства, связывающего 2 объекта).
+1.2. При запросе http типа GET со значением <text/json> в поле Accept 
+     при обращении к URI
 
-2.
+1.2.1.
+/ возвращается список всех классов в виде списка json: [class1uri, class2uri, ...].
+Например,
+["http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Chianti", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Pauillac", ...]
+
+1.2.2.
+/classid/ возвращается класс classid в виде объекта json: {classuri: [object1uri, object2uri, ...]}
+Например,
+{"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Region": ["http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#BeaujolaisRegion", "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchRegion", ... ]}
+
+Замечание.
+При несуществовании класса classid возвращается пустой объект json: {}.
+
+1.2.3.
+/classid/objectid/ возвращается экземпляр objectid класса classid в виде объекта json (описание свойств объекта с заданной степенью вложенности):
+{classuri: object_description}
+Описание объекта object_description имеет вид:
+{objecturi: {property1uri: property1value, ...}}
+Значение свойства (например, property1value) может иметь 2 вида:
+	null - значения нет,
+	[[val1], [val1type], ... ] - свойство имеет одно или более значений.
+Значение свойства (например, val1) может иметь 2 вида:
+	object_description - в случае object property,
+	Literal - в случае data property.
+
+Например,
+{"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Winery": {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#LaneTanner": {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasBody": null, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasFlavor": null, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasMaker": null, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasSugar": null}}}
+
+Замечание.
+При несуществовании класса classid возвращается пустой объект json: {}.
+При несуществовании объекта objectid существующего класса classid возвращается объект json: {classuri: null}. Например, {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Region": null}
+
+
+2. Метод GET -> действие delete
+
+2.1. Удалить экземпляр
 При запросе http типа DELETE
-по URL
-/ происходит удаление всех классов и их экземпляров,
-/class_name/ происходит удаление класса class_name и его экземпляров,
-/class_name/object_name/ происходит удаление экземпляра object_name класса class_name.
+по URI /classid/objectid 
+происходит удаление экземпляра objectid класса classid
 Тело запроса пусто.
 
-3.
-При запросе http типа PUT
-по URL
-/ происходит добавление класса,
-/class_name/ происходит добавление экземпляра класса class_name,
-/class_name/object_name/ происходит добавление свойств и их значений к экземпляру object_name класса class_name.
-Данные о добавляемом ресурсе в теле запроса.(???)
+Замечание.
+Удаление экземпляра - это удаление всех его свойств (троек типа objecturi some_predicate some_object; причем в качестве some_predicate будет выступать и rdf:type).
 
-4.
+Ответ на запрос такого вида:
+1. пустой - объект не был удален (произошла ошибка - не существует такого класса classid или не существует такого объекта objectid существующего класса),
+2. objectid - был удален объект objectid класса classid.
+
+3. Метод PUT -> действие create
+
+3.1. Создать экземпляр
+При запросе http типа PUT
+по URI /classid/ 
+происходит добавление экземпляра класса classid.
+В теле запроса указывается или не указывается идентификатор объекта objectid (например, newobject).
+Если идентификатор не указывается, создается объект класса classid с идентификатором, выбранным автоматически.
+Если идентификатор указывается, при существовании такого объекта возвращается ошибка, при несуществовании такого объекта, создается объект с указанным идентификатором.
+
+Замечание.
+Создание экземпляра - это добавление тройки вида objecturi rdf:type classuri.
+
+Ответ на запрос такого вида:
+1. пустой - объект не был создан (произошла ошибка - такого идентификатор уже существует, класса classid не существует),
+2. objectid - был создан объект objectid класса classid.
+
+
+4. Метод POST -> действия update
+
+4.1. Изменить экземпляр
 При запросе http типа POST
-по URL
-/class_name/ происходит изменение класса:
-(???изменение имени класса, изменение его свойств) 
-/class_name/object_name/ происходит изменение экземпляра object_name класса class_name
-(???изменение имени экземпляра, изменение его свойств: изменение значений свойств/удаление свойств)
-Данные об изменяемом ресурсе в теле запроса.(???)
+по URI /classid/objectid/ 
+происходит изменение экземпляра objectid класса classid.
+В теле запроса указывается следующее:
+propertyid: [[propertyvalue, propertyvaluetype], ...]
+
+Замечание.
+Изменение экземпляра - это изменение свойств экземпляра (добавление несуществовавших ранее свойств и их значений, изменение значений существующих свойств, обнуление значений существующих свойств = удаление свойства)
+
+Ответ на запрос такого вида:
+1. пустой - свойство не было изменено (произошла ошибка - не существует класса classid, не существует объекта objectid, не существует свойства propertyid класса classid),
+2. propertyid - свойство было изменено.
