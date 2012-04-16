@@ -68,7 +68,7 @@ D = delete 	-> DELETE
 {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Winery": {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#LaneTanner": {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasBody": null, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasFlavor": null, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasMaker": null, "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#hasSugar": null}}}
 
 Замечание.
-При несуществовании объекта objectid возвращается объект json: {classuri: null}. Например, {"http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Region": null}
+При несуществовании класса objectid возвращается пустой объект json: {}.
 
 
 
